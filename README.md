@@ -13,7 +13,7 @@ local Theme = {
     Text = Color3.fromRGB(245, 245, 248),
     SubText = Color3.fromRGB(150, 150, 158),
     Accent = Color3.fromRGB(120, 100, 255),
-    Stroke = Color3.fromRGB(38, 38, 45)
+    Stroke = Color3.fromRGB(70, 70, 80)
 }
 
 local Fast = TweenInfo.new(
@@ -49,6 +49,7 @@ local function Stroke(parent, color, thickness)
     return Create("UIStroke", {
         Color = color or Theme.Stroke,
         Thickness = thickness or 1,
+        Transparency = 0,
         Parent = parent
     })
 end
@@ -165,6 +166,7 @@ function Library:CreateWindow(config)
         Size = UDim2.fromOffset(500, 340),
         Position = UDim2.new(0.5, -250, 0.5, -170),
         BackgroundColor3 = Theme.Background,
+        BackgroundTransparency = 0.25,
         BorderSizePixel = 0,
         Parent = ScreenGui
     })
@@ -270,6 +272,7 @@ function Library:CreateWindow(config)
         Position = UDim2.fromOffset(0, 0),
         Size = UDim2.new(0, 115, 1, 0),
         BackgroundColor3 = Theme.Secondary,
+        BackgroundTransparency = 0.25,
         BorderSizePixel = 0,
         Parent = Content
     })
@@ -500,7 +503,7 @@ function Library:CreateWindow(config)
             local Switch = Create("TextButton", {
                 Position = UDim2.new(1, -52, 0.5, -10),
                 Size = UDim2.fromOffset(40, 20),
-                BackgroundColor3 = Color3.fromRGB(45, 45, 52),
+                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                 BorderSizePixel = 0,
                 Text = "",
                 AutoButtonColor = false,
@@ -508,6 +511,14 @@ function Library:CreateWindow(config)
             })
 
             Corner(Switch, 10)
+
+            local SwitchGradient = Create("UIGradient", {
+                Color = ColorSequence.new({
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 85, 85)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(170, 0, 0))
+                }),
+                Parent = Switch
+            })
 
             local Circle = Create("Frame", {
                 Position = UDim2.fromOffset(3, 3),
@@ -521,18 +532,18 @@ function Library:CreateWindow(config)
 
             local function Update()
                 if Enabled then
-                    Tween(Switch, {
-                        BackgroundColor3 = Theme.Accent
+                    SwitchGradient.Color = ColorSequence.new({
+                        ColorSequenceKeypoint.new(0, Color3.fromRGB(85, 255, 127)),
+                        ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 170, 0))
                     })
-
                     Tween(Circle, {
                         Position = UDim2.new(1, -17, 0, 3)
                     })
                 else
-                    Tween(Switch, {
-                        BackgroundColor3 = Color3.fromRGB(45, 45, 52)
+                    SwitchGradient.Color = ColorSequence.new({
+                        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 85, 85)),
+                        ColorSequenceKeypoint.new(1, Color3.fromRGB(170, 0, 0))
                     })
-
                     Tween(Circle, {
                         Position = UDim2.fromOffset(3, 3)
                     })
